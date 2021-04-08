@@ -21,7 +21,7 @@ h1::after {
     display: block;
 }
 .container img {
-    margin-top: 150px;
+    margin-top: 1rem;
 }
 
 label {
@@ -50,6 +50,7 @@ input[type="submit"]{
 
 .resultado {
     color: white;
+    text-align: center;
 
 }
 .resultado h2 {
@@ -71,6 +72,10 @@ p.precio{
 
 @media (min-width:480px) {
     form {
+        margin-top: 150px;
+    }
+
+    .container img {
         margin-top: 150px;
     }
 }

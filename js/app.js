@@ -39,11 +39,12 @@ function consultarCriptomonedas(){
 
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD';
 
-    mostrarSpinner();
+    
     fetch(url)
         .then(response => response.json())
         .then(result => obtenerCriptomonedas(result.Data))
         .then(criptomonedas =>selectFill(criptomonedas))
+        // mostrarSpinner();
 }
 
 
@@ -79,7 +80,7 @@ function submitForm (e){
         mostrarAlerta('Ambos campos son obligatorios');
 
     }
-
+    mostrarSpinner();
     consultarAPI();
 
 
@@ -113,31 +114,34 @@ function consultarAPI(){
 
 function showHTML(cotizacion){
     limpiarHTML();
+   
+    
     const {PRICE,HIGHDAY,LOWDAY,CHANGEPCTHOUR, LASTUPDATE} = cotizacion;
-    if (LASTUPDATE.value === 'Just now') {
-        LASTUPDATE.textContent = 'Justo Ahora'
-    }
+        
+    
+        const precio = document.createElement('p');
+        precio.classList.add('precio')
+        precio.innerHTML = `El precio es: <span>${PRICE}</span>`;
+        const altoDia = document.createElement('p')
+        altoDia.innerHTML = `El precio mas alto hoy : <span>${HIGHDAY}</span>`;
+        const bajoDia = document.createElement('p')
+        bajoDia.innerHTML = `El precio mas bajo hoy : <span>${LOWDAY}</span>`;
+        const change = document.createElement('p')
+        change.innerHTML = `Ha cambiado: <span>${CHANGEPCTHOUR}%</span>`;
+        const lastupdate = document.createElement('p');
+        lastupdate.innerHTML = `Ultima actualizacion : <span>${LASTUPDATE}</span>`;
+        
+    
+    
+        resultado.appendChild(precio)
+        resultado.appendChild(bajoDia)
+        resultado.appendChild(altoDia)
+        resultado.appendChild(change)
+        resultado.appendChild(lastupdate)
+}
 
-    const precio = document.createElement('p');
-    precio.classList.add('precio')
-    precio.innerHTML = `El precio es: <span>${PRICE}</span>`;
-    const altoDia = document.createElement('p')
-    altoDia.innerHTML = `El precio mas alto hoy : <span>${HIGHDAY}</span>`;
-    const bajoDia = document.createElement('p')
-    bajoDia.innerHTML = `El precio mas bajo hoy : <span>${LOWDAY}</span>`;
-    const change = document.createElement('p')
-    change.innerHTML = `Ha cambiado: <span>${CHANGEPCTHOUR}%</span>`;
-    const lastupdate = document.createElement('p');
-    lastupdate.innerHTML = `Ultima actualizacion : <span>${LASTUPDATE}</span>`;
     
 
-
-    resultado.appendChild(precio)
-    resultado.appendChild(bajoDia)
-    resultado.appendChild(altoDia)
-    resultado.appendChild(change)
-    resultado.appendChild(lastupdate)
-}
 
 
 function limpiarHTML(){
@@ -148,18 +152,23 @@ while(resultado.firstChild){
 
 function mostrarSpinner(){
     limpiarHTML();
-setTimeout(() => {
+    const existe = document.querySelector('spinner');
+    if (!existe) {
+        
     
-    const spinner = document.createElement('div');
+        
+        const spinner = document.createElement('div');
+    
+        spinner.classList.add('spinner');
+    
+        spinner.innerHTML = `
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>   
+        `
+    
+        resultado.appendChild(spinner)
+    }
+   
 
-    spinner.classList.add('spinner');
-
-    spinner.innerHTML = `
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>   
-    `
-
-    resultado.appendChild(spinner)
-}, 3000);
 }
